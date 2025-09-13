@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MyTube</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow p-4 flex justify-between items-center">
+        <div class="flex items-center space-x-4">
+            <span class="text-2xl font-bold text-red-600">MyTube</span>
+            <input type="text" placeholder="Search" class="border rounded px-2 py-1">
+        </div>
+        <div>
+            <button class="bg-red-600 text-white px-4 py-1 rounded">Sign In</button>
+        </div>
+    </nav>
+
+    <div class="flex mt-4">
+
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white p-4 shadow space-y-2">
+            <h2 class="font-bold mb-2">Categories</h2>
+            <ul class="space-y-1">
+                <li><a href="#" class="hover:text-red-600">Music</a></li>
+                <li><a href="#" class="hover:text-red-600">Gaming</a></li>
+                <li><a href="#" class="hover:text-red-600">News</a></li>
+                <li><a href="#" class="hover:text-red-600">Sports</a></li>
+                <li><a href="#" class="hover:text-red-600">Education</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main content -->
+        <main class="flex-1 p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <!-- Video card -->
+            {% for video in videos %}
+            <div class="bg-white shadow rounded overflow-hidden">
+                <div class="relative">
+                    <img src="{{ video.thumbnail_url }}" alt="{{ video.title }}" class="w-full h-48 object-cover">
+                    <span class="absolute bottom-1 right-1 bg-black text-white text-xs px-1">{{ video.duration }}</span>
+                </div>
+                <div class="p-2">
+                    <h3 class="font-semibold text-sm">{{ video.title }}</h3>
+                    <p class="text-xs text-gray-600">{{ video.channel_name }}</p>
+                    <p class="text-xs text-gray-500">{{ video.views }} views • {{ video.uploaded_at }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </main>
+    </div>
+
+</body>
+</html>

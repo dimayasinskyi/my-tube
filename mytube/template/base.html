@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>MyTube</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+    <!-- Navbar -->
+    <nav class="bg-white shadow p-4 flex justify-between items-center">
+        <div class="flex items-center space-x-4">
+            <span class="text-2xl font-bold text-red-600">MyTube</span>
+            <input type="text" placeholder="Search" class="border rounded px-2 py-1">
+        </div>
+        <div>
+            <button class="bg-red-600 text-white px-4 py-1 rounded">Sign In</button>
+        </div>
+    </nav>
+    {% block content %} {% endblock %}
+</body>
+
+</html>
