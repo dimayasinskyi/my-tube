@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Sign In / Sign Up Buttons -->
+<div>
+    <button id="signInBtn" class="bg-red-600 text-white px-4 py-1 rounded mr-2">Sign In</button>
+    <button id="signUpBtn" class="bg-gray-600 text-white px-4 py-1 rounded">Sign Up</button>
+</div>
+
+<!-- Sign In Modal -->
+<div id="signInModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white p-6 rounded shadow w-96">
+        <h2 class="text-xl font-bold mb-4">Sign In</h2>
+        <form method="post" action="">
+            {% csrf_token %}
+            {{ login_form.as_p }}
+            <!-- <input type="text" name="username" placeholder="Username" class="w-full border rounded px-3 py-2 mb-3">
+            <input type="password" name="password" placeholder="Password" class="w-full border rounded px-3 py-2 mb-3"> -->
+            <button type="submit" class="w-full bg-red-600 text-white py-2 rounded" name="login_submit">Sign In</button>
+        </form>
+        <button id="closeSignIn" class="mt-2 text-sm text-gray-500">Cancel</button>
+    </div>
+</div>
+
+<!-- Sign Up Modal -->
+<div id="signUpModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white p-6 rounded shadow ">
+        <h2 class="text-xl font-bold mb-4">Sign Up</h2>
+        <form method="post" action="">
+            {% csrf_token %}
+            {{ register_form.as_p }}
+            <!-- <input type="text" name="username" placeholder="Username" class="w-full border rounded px-3 py-2 mb-2">
+            <input type="email" name="email" placeholder="Email" class="w-full border rounded px-3 py-2 mb-2">
+            <input type="password" name="password1" placeholder="Password" class="w-full border rounded px-3 py-2 mb-2">
+            <input type="password" name="password2" placeholder="Confirm Password"
+                class="w-full border rounded px-3 py-2 mb-3"> -->
+            <button type="submit" class="w-full bg-gray-600 text-white py-2 rounded" name="register_submit">Sign
+                Up</button>
+        </form>
+        <button id="closeSignUp" class="mt-2 text-sm text-gray-500">Cancel</button>
+    </div>
+</div>
+
+{% if messages %}
+<ul class="mb-4">
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<!-- Modal Script -->
+<script>
+    const signInBtn = document.getElementById('signInBtn');
+    const signUpBtn = document.getElementById('signUpBtn');
+    const signInModal = document.getElementById('signInModal');
+    const signUpModal = document.getElementById('signUpModal');
+    const closeSignIn = document.getElementById('closeSignIn');
+    const closeSignUp = document.getElementById('closeSignUp');
+
+    signInBtn.addEventListener('click', () => signInModal.classList.remove('hidden'));
+    signUpBtn.addEventListener('click', () => signUpModal.classList.remove('hidden'));
+    closeSignIn.addEventListener('click', () => signInModal.classList.add('hidden'));
+    closeSignUp.addEventListener('click', () => signUpModal.classList.add('hidden'));
+</script>
+
+{% endblock %}

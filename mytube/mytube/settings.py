@@ -42,6 +42,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'rest_framework',
+    'django_cleanup',
+    'cloudinary',
+    'cloudinary_storage',
+
     'account',
     'channel',
     'content',
@@ -134,3 +139,9 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Cloudinary
+CLOUDINARY_URL = os.getenv("CLOUDINARY_URL")
+
+# Microservices Ports
+RECOMMENDATION_SERVICE_URL = "http://127.0.0.1:7000"

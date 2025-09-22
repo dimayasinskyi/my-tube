@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+
 {% block content %}
 <div class="flex mt-4">
 
@@ -7,11 +8,9 @@
     <aside class="w-64 bg-white p-4 shadow space-y-2">
         <h2 class="font-bold mb-2">Categories</h2>
         <ul class="space-y-1">
-            <li><a href="#" class="hover:text-red-600">Music</a></li>
-            <li><a href="#" class="hover:text-red-600">Gaming</a></li>
-            <li><a href="#" class="hover:text-red-600">News</a></li>
-            <li><a href="#" class="hover:text-red-600">Sports</a></li>
-            <li><a href="#" class="hover:text-red-600">Education</a></li>
+            {% for tag in tags %}
+            <li><a href="?tag={{ tag }}" class="hover:text-red-600">{{ tag }}</a></li>
+            {% endfor %}
         </ul>
     </aside>
 
@@ -19,18 +18,62 @@
     <main class="flex-1 p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         <!-- Video card -->
         {% for video in videos %}
-        <div class="bg-white shadow rounded overflow-hidden">
-            <div class="relative">
-                <img src="{{ video.thumbnail_url }}" alt="{{ video.title }}" class="w-full h-48 object-cover">
-                <span class="absolute bottom-1 right-1 bg-black text-white text-xs px-1">{{ video.duration }}</span>
+        <a href="{{ video.file.url }}">
+            <div class="bg-white shadow rounded overflow-hidden">
+                <div class="relative">
+                    <img src="{{ video.thumbnail_url }}" alt="{{ video.title }}" class="w-full h-48 object-cover">
+                    <span class="absolute bottom-1 right-1 bg-black text-white text-xs px-1">{{ video.duration }}</span>
+                </div>
+                <div class="p-2">
+                    <h3 class="font-semibold text-sm">{{ video.title }}</h3>
+                    <p class="text-xs text-gray-600">{{ video.channel_name }}</p>
+                    <p class="text-xs text-gray-500">{{ video.views }} views • {{ video.uploaded_at }}</p>
+                </div>
             </div>
-            <div class="p-2">
-                <h3 class="font-semibold text-sm">{{ video.title }}</h3>
-                <p class="text-xs text-gray-600">{{ video.channel_name }}</p>
-                <p class="text-xs text-gray-500">{{ video.views }} views • {{ video.uploaded_at }}</p>
-            </div>
-        </div>
+        </a>
+        {% empty %}
+        <p class="text-gray-500 col-span-full">Video not found.</p>
         {% endfor %}
     </main>
 </div>
+{% if is_paginated %}
+<div class="flex justify-center mt-6">
+    <nav class="inline-flex rounded-md shadow">
+        <!-- Previous Page -->
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}"
+            class="px-3 py-1 border border-gray-300 bg-white text-gray-700 hover:bg-gray-100 rounded-l-md">
+            ← Previous
+        </a>
+        {% else %}
+        <span class="px-3 py-1 border border-gray-200 bg-gray-100 text-gray-400 rounded-l-md cursor-not-allowed">
+            ← Previous
+        </span>
+        {% endif %}
+
+        <!-- Page Numbers -->
+        {% for num in paginator.page_range %}
+        {% if page_obj.number == num %}
+        <span class="px-3 py-1 border border-red-500 bg-red-500 text-white">{{ num }}</span>
+        {% else %}
+        <a href="?page={{ num }}" class="px-3 py-1 border border-gray-300 bg-white text-gray-700 hover:bg-gray-100">
+            {{ num }}
+        </a>
+        {% endif %}
+        {% endfor %}
+
+        <!-- Next Page -->
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}"
+            class="px-3 py-1 border border-gray-300 bg-white text-gray-700 hover:bg-gray-100 rounded-r-md">
+            Next →
+        </a>
+        {% else %}
+        <span class="px-3 py-1 border border-gray-200 bg-gray-100 text-gray-400 rounded-r-md cursor-not-allowed">
+            Next →
+        </span>
+        {% endif %}
+    </nav>
+</div>
+{% endif %}
 {% endblock %}

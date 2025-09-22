@@ -9,6 +9,14 @@ python-dotenv = "==1.1.1"
 pillow = "==11.3.0"
 gunicorn = "==23.0.0"
 dj-database-url = "==3.0.1"
+django-rest-framework = "==0.1.0"
+joblib = "==1.5.2"
+requests = "==2.32.5"
+scikit-learn = "==1.7.2"
+pandas = "==2.3.2"
+cloudinary = "==1.44.1"
+django-cloudinary-storage = "==0.3.0"
+django-cleanup = "==9.0.0"
 
 [dev-packages]
 

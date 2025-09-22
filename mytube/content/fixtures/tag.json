@@ -1,0 +1,72 @@
+[
+  {
+    "model": "content.tag",
+    "pk": 1,
+    "fields": {
+      "title": "music"
+    }
+  },
+  {
+    "model": "content.tag",
+    "pk": 2,
+    "fields": {
+      "title": "sports"
+    }
+  },
+  {
+    "model": "content.tag",
+    "pk": 3,
+    "fields": {
+      "title": "gaming"
+    }
+  },
+  {
+    "model": "content.tag",
+    "pk": 4,
+    "fields": {
+      "title": "education"
+    }
+  },
+  {
+    "model": "content.tag",
+    "pk": 5,
+    "fields": {
+      "title": "comedy"
+    }
+  },
+  {
+    "model": "content.tag",
+    "pk": 6,
+    "fields": {
+      "title": "news"
+    }
+  },
+  {
+    "model": "content.tag",
+    "pk": 7,
+    "fields": {
+      "title": "technology"
+    }
+  },
+  {
+    "model": "content.tag",
+    "pk": 8,
+    "fields": {
+      "title": "movies"
+    }
+  },
+  {
+    "model": "content.tag",
+    "pk": 9,
+    "fields": {
+      "title": "cooking"
+    }
+  },
+  {
+    "model": "content.tag",
+    "pk": 10,
+    "fields": {
+      "title": "travel"
+    }
+  }
+]

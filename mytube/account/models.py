@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.templatetags.static import static
 
+from cloudinary_storage.storage import MediaCloudinaryStorage
+
 
 class CountryChoises(models.TextChoices):
     """Model for selecting countries in the CustomUser model."""
@@ -35,7 +37,7 @@ class CustomUser(AbstractUser):
     - str: returns full username
     - get_avatar_url: returns url avatar or url default avatar
     """
-    avatar = models.ImageField(null=True, blank=True, upload_to="user/avatar/")
+    avatar = models.ImageField(null=True, blank=True, upload_to="user/avatar/", storage=MediaCloudinaryStorage())
     country = models.CharField(max_length=2, null=True, blank=True, choices=CountryChoises.choices)
     age = models.PositiveIntegerField(null=True, blank=True)
 
@@ -44,5 +46,5 @@ class CustomUser(AbstractUser):
     
     def get_avatar_url(self):
         if self.avatar:
-            return self.author.avatar.url
+            return self.avatar.url
         return static("default/avatar_default.png")

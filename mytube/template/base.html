@@ -1,10 +1,14 @@
 <!DOCTYPE html>
+
+{% load static %}
+
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <title>MyTube</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
 </head>
 
 <body class="bg-gray-100">
@@ -15,7 +19,12 @@
             <input type="text" placeholder="Search" class="border rounded px-2 py-1">
         </div>
         <div>
-            <button class="bg-red-600 text-white px-4 py-1 rounded">Sign In</button>
+            {% if request.user.is_authenticated %}
+            <a class="bg-red-600 text-white px-4 py-1 rounded"
+                href="{% url 'account:profile' request.user.pk %}">Profile</a>
+            {% else %}
+            <a class="bg-red-600 text-white px-4 py-1 rounded" href="{% url 'account:login' %}">Sign In</a>
+            {% endif %}
         </div>
     </nav>
     {% block content %} {% endblock %}

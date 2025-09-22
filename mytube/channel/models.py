@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.templatetags.static import static
 
+from cloudinary_storage.storage import MediaCloudinaryStorage
+
 
 User = get_user_model()
 
@@ -21,8 +23,8 @@ class Channel(models.Model):
     - get_banner_url: url banner or default url banner
     """
     name = models.CharField(max_length=100)
-    avatar = models.FileField(null=True, blank=True, upload_to="channel/avatar/")
-    banner = models.FileField(null=True, blank=True,upload_to="channel/banner/")
+    avatar = models.ImageField(null=True, blank=True, upload_to="channel/avatar/", storage=MediaCloudinaryStorage())
+    banner = models.ImageField(null=True, blank=True, upload_to="channel/banner/", storage=MediaCloudinaryStorage())
     author = models.OneToOneField(to=User, on_delete=models.CASCADE)
     poenitization = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
