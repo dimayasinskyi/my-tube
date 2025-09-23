@@ -60,6 +60,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # 'mytube.middleware.SendInfoOfUser',
 ]
 
 AUTH_USER_MODEL = 'account.CustomUser'
@@ -145,3 +147,7 @@ CLOUDINARY_URL = os.getenv("CLOUDINARY_URL")
 
 # Microservices Ports
 RECOMMENDATION_SERVICE_URL = "http://127.0.0.1:7000"
+
+# Telegram
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
+TELEGRAM_BOT_URL = os.getenv("TELEGRAM_BOT_URL")

@@ -9,11 +9,23 @@ class Home(ListView):
     template_name = "content/home.html"
     context_object_name = "videos"
     paginate_by = 16
+    
+    def get_videos(self, video):
+        param = self.request.GET
+        if param.get("search"):
+            videos = video.filter(title__icontains=param.get("search")).order_by("title")
+        elif param.get("tag"):
+            videos = video.filter(tags=param.get("tag")).order_by("tags")
+        else:
+            videos = video.order_by("-created_at")
+        return videos
 
     def get_queryset(self):
+
         if self.request.user.is_authenticated:
             user = self.request.user
-            serializer = VideoSerializer(Video.objects.order_by("?")[:50], many=True, context={"user": user})
+
+            serializer = VideoSerializer(self.get_videos(Video.objects.all()), many=True, context={"user": user})
             recommendations = Recommendations.objects.get(user=user)
 
             recommendations.video.clear()
@@ -24,13 +36,19 @@ class Home(ListView):
                     video_ids.append(serializer.get("video_id"))
                     
             recommendations.video.set(video_ids)
-            return Recommendations.objects.get(user=user).video.all().order_by("?")
+            return Recommendations.objects.get(user=user).video.all()[:50]
         
-        return Video.objects.order_by("?")[:100]
+        return self.get_videos(Video.objects.all())[:50]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["tags"] = Tag.objects.all().order_by("title")
+        
+        querystring = self.request.GET.copy()
+        if "page" in querystring:
+            del querystring["page"]
+
+        context["querystring"] = f"&{querystring.urlencode()}" if querystring else ""
         return context
 
 

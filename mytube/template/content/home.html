@@ -9,7 +9,7 @@
         <h2 class="font-bold mb-2">Categories</h2>
         <ul class="space-y-1">
             {% for tag in tags %}
-            <li><a href="?tag={{ tag }}" class="hover:text-red-600">{{ tag }}</a></li>
+            <li><a href="?tag={{ tag.id }}" class="hover:text-red-600">{{ tag }}</a></li>
             {% endfor %}
         </ul>
     </aside>
@@ -41,7 +41,7 @@
     <nav class="inline-flex rounded-md shadow">
         <!-- Previous Page -->
         {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}"
+        <a href="?page={{ page_obj.previous_page_number }}{{ querystring }}"
             class="px-3 py-1 border border-gray-300 bg-white text-gray-700 hover:bg-gray-100 rounded-l-md">
             ← Previous
         </a>
@@ -56,7 +56,8 @@
         {% if page_obj.number == num %}
         <span class="px-3 py-1 border border-red-500 bg-red-500 text-white">{{ num }}</span>
         {% else %}
-        <a href="?page={{ num }}" class="px-3 py-1 border border-gray-300 bg-white text-gray-700 hover:bg-gray-100">
+        <a href="?page={{ num }}{{ querystring }}"
+            class="px-3 py-1 border border-gray-300 bg-white text-gray-700 hover:bg-gray-100">
             {{ num }}
         </a>
         {% endif %}
@@ -64,7 +65,7 @@
 
         <!-- Next Page -->
         {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}"
+        <a href="?page={{ page_obj.next_page_number }}{{ querystring }}"
             class="px-3 py-1 border border-gray-300 bg-white text-gray-700 hover:bg-gray-100 rounded-r-md">
             Next →
         </a>

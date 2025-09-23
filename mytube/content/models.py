@@ -52,10 +52,12 @@ class Video(models.Model):
         import os
         from urllib.parse import urlparse
 
+
         url_path = urlparse(video.file.url).path  # /video/upload/v1234567890/videos/myvideo.mp4
         public_id = os.path.splitext(url_path.split('/upload/')[1])[0]  # videos/myvideo
-        url, options = cloudinary_url(
+        url, _ = cloudinary_url(
             public_id,
+            cloud_name="prod",
             resource_type="video",
             format="jpg",
             start_offset=1

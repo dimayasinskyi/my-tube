@@ -16,7 +16,8 @@
     <nav class="bg-white shadow p-4 flex justify-between items-center">
         <div class="flex items-center space-x-4">
             <span class="text-2xl font-bold text-red-600">MyTube</span>
-            <input type="text" placeholder="Search" class="border rounded px-2 py-1">
+            <input id="searchInput" type="text" placeholder="Search" value="{{ request.GET.search }}"
+                class="border rounded px-2 py-1">
         </div>
         <div>
             {% if request.user.is_authenticated %}
@@ -28,6 +29,25 @@
         </div>
     </nav>
     {% block content %} {% endblock %}
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const searchInput = document.getElementById("searchInput");
+
+            searchInput.addEventListener("keydown", function (event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+
+                    const query = searchInput.value.trim();
+
+                    if (query) {
+                        const baseUrl = "{% url 'content:home' %}";
+                        window.location.href = `${baseUrl}?search=${encodeURIComponent(query)}`;
+                        searchInput.value = query;
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
