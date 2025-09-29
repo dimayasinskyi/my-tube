@@ -33,7 +33,7 @@ def create_recommendation(request):
     "country": "UA"
     }
     """ 
-    df = pd.DataFrame([request.data])
+    df = pd.DataFrame(request.data)
 
     mlb = MultiLabelBinarizer(classes=ALL_TAGS)
     tags_encoded = mlb.fit_transform(df["tags"])
@@ -48,7 +48,9 @@ def create_recommendation(request):
         if col not in X.columns:
             X[col] = 0
 
-    response = settings.MODEL.predict(X[FEATURE_COLUMNS])
-    return Response(response)
+    is_liked_by_user = settings.MODEL.predict(X[FEATURE_COLUMNS])
 
+    df["is_liked_by_user"] = is_liked_by_user
 
+    result = df.to_dict(orient="records")
+    return Response(result)

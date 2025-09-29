@@ -16,10 +16,20 @@ class ChannelUpdateView(UpdateView):
     template_name = "channel/profile.html"
     fields = ["name", "avatar", "banner", "poenitization"]
 
+    def get_success_url(self):
+        return reverse_lazy("channel:profile_channel", args=[Channel.objects.get(author=self.request.user).pk])
+    
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
         form.fields["poenitization"].disabled = True
         return form
 
-    def get_success_url(self):
-        return reverse_lazy("channel:profile_channel", args=[Channel.objects.get(author=self.request.user).pk])
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["breadcrumbs"] = [
+            {"name": "Home", "url": reverse_lazy("content:home")},
+            {"name": "User profile", "url": reverse_lazy("account:profile", args=[self.request.user.pk])},
+            {"name": "Channel profile", "url": ""},
+        ]
+        return context 

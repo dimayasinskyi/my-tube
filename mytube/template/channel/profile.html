@@ -2,12 +2,12 @@
 
 {% block content %}
 <div class="flex mt-4">
-
+    
     {% include 'includes/sidebar.html' %}
-
+    
     <!-- Main content -->
     <main class="flex-1 p-4 space-y-6">
-
+        {% include 'includes/breadcrumbs.html' %}
         <!-- Channel Header / Banner -->
         <div class="bg-white shadow rounded overflow-hidden">
             {% if request.user.channel.banner %}
@@ -42,6 +42,7 @@
                 </div>
             </div>
         </div>
+
 
         <!-- User Videos -->
         <section>

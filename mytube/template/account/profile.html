@@ -3,21 +3,11 @@
 
 {% block content %}
 <div class="flex mt-4">
-
-    <!-- Sidebar -->
-    <!-- <aside class="w-64 bg-white p-4 shadow space-y-2">
-        <h2 class="font-bold mb-2">Menu</h2>
-        <ul class="space-y-1">
-            <li><a href="{% url 'account:profile' request.user.pk %}" class="hover:text-red-600">My Profile</a></li>
-            <li><a href="#" class="hover:text-red-600">My Videos</a></li>
-            <li><a href="{% url 'content:create_video' %}" class="hover:text-red-600">Upload Video</a></li>
-            <li><a href="#" class="hover:text-red-600">Settings</a></li>
-        </ul>
-    </aside> -->
     {% include 'includes/sidebar.html' %}
 
     <!-- Main content -->
     <main class="flex-1 p-4">
+        {% include 'includes/breadcrumbs.html' %}
         <div class="bg-white shadow rounded p-6 mb-6 flex items-center space-x-6">
             <!-- Avatar -->
             <div class="w-24 h-24 bg-gray-300 rounded-full flex items-center justify-center text-2xl text-white">

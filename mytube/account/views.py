@@ -61,3 +61,9 @@ class ProfileUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy("account:profile", args=[self.request.user.pk])
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["breadcrumbs"] = [{"name": "Home", "url": reverse_lazy("content:home")}, {"name": "User profile", "url": ""}]
+        return context 
