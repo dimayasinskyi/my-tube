@@ -10,23 +10,22 @@
         {% include 'includes/breadcrumbs.html' %}
         <div class="bg-white shadow rounded p-6 mb-6 flex items-center space-x-6">
             <!-- Avatar -->
-            <div class="w-24 h-24 bg-gray-300 rounded-full flex items-center justify-center text-2xl text-white">
-                {% if request.user.avatar %}
-                <img src="{{ request.user.get_avatar_url }}" alt="{{ request.user.username }}">
-                {% else %}
-                {{ user.username|slice:":1"|upper }}
-                {% endif %}
-            </div>
+            <label for="avatar-input" class="cursor-pointer">
+                <div class="w-24 h-24 bg-gray-300 rounded-full overflow-hidden flex items-center justify-center">
+                    <img src="{{ request.user.get_avatar_url }}" alt="{{ request.user.username }}"
+                        class="w-full h-full object-cover">
+                </div>
+            </label>
             <!-- User Info -->
             <div>
-                <form method="post" enctype="multipart/form-data">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">Profile</h2>
+                <form method="post" enctype="multipart/form-data" id="userProfileForm">
                     {% csrf_token %}
-                    {{ form.as_p }}
-
-                    <!-- <h1 class="text-2xl font-bold">{{ user.first_name }} {{ user.last_name }}</h1>
-                <p class="text-gray-600">@{{ user.username }}</p>
-                <p class="text-gray-500 mt-1">Country: {{ user.country }}</p>
-                <p class="text-gray-500">Age: {{ user.age }}</p> -->
+                    {{ form.avatar }}
+                    <p class="text-gray-1000">{{ form.first_name }} {{ form.last_name }}</p>
+                    <p class="text-gray-600">@{{ form.username }}</p>
+                    <p class="text-gray-500 mt-1">Country: {{ form.country }}</p>
+                    <p class="text-gray-500">Age: {{ form.age }}</p>
                     <div class="pt-4">
                         <button type="submit"
                             class="w-full bg-red-600 text-white py-2 rounded hover:bg-red-700 transition">
@@ -40,5 +39,17 @@
     </main>
 
 </div>
+
+<script>
+    const form = document.getElementById("userProfileForm");
+    document.getElementById("avatar-input").addEventListener("change", function (event) {
+        const [file] = event.target.files;
+        if (file) {
+            const preview = document.querySelector("label[for='avatar-input'] img");
+            preview.src = URL.createObjectURL(file);
+        }
+        form.submit()
+    });
+</script>
 
 {% endblock %}

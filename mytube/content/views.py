@@ -3,8 +3,9 @@ from django.views.generic import CreateView, ListView
 from django.urls import reverse_lazy
 
 from mytube.celery import create_recommendation
-from .serializers import VideoSerializer
 from .models import Recommendations, Video, Tag
+from .serializers import VideoSerializer
+from .forms import VideoCreateForm
 
 
 class Home(ListView):
@@ -48,7 +49,8 @@ class Home(ListView):
 
 class VideoCreateVideo(CreateView):
     model = Video
-    fields = ["title", "description", "tags", "file"]
+    form_class = VideoCreateForm
+    # fields = ["title", "description", "tags", "file"]
     template_name = "content/create_video.html"
     success_url = reverse_lazy("account:profile")
 

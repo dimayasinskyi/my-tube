@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+{% load nav_active %}
 
 {% block content %}
 <div class="flex mt-4">
@@ -9,7 +10,7 @@
         <h2 class="font-bold mb-2">Categories</h2>
         <ul class="space-y-1">
             {% for tag in tags %}
-            <li><a href="?tag={{ tag.id }}" class="hover:text-red-600">{{ tag }}</a></li>
+            <li><a href="?tag={{ tag.id }}" class="{% active_tags tag.id %} hover:text-red-600">{{ tag }}</a></li>
             {% endfor %}
         </ul>
     </aside>

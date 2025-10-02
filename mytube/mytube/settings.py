@@ -64,7 +64,7 @@ MIDDLEWARE = [
 
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
-    'mytube.middleware.SendInfoOfUser',
+    # 'mytube.middleware.SendInfoOfUser',
 ]
 
 AUTH_USER_MODEL = 'account.CustomUser'
@@ -101,12 +101,18 @@ if DEBUG:
     }
 else:
     DATABASES = {
-        'default': dj_database_url.config(
-            default=os.getenv("DATABASE_URL"),
-            conn_max_age=600,
-            conn_health_checks=True,
-        )
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
+    # DATABASES = {
+    #     'default': dj_database_url.config(
+    #         default=os.getenv("DATABASE_URL"),
+    #         conn_max_age=600,
+    #         conn_health_checks=True,
+    #     )
+    # }
 
 
 # Password validation

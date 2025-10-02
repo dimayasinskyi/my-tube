@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
 
-from .forms import RegisterForm
+from .forms import RegisterForm, ProfileForm
 
 
 class AthenticationView(View):
@@ -56,8 +56,9 @@ def log_out(request):
 
 class ProfileUpdateView(UpdateView):
     model = get_user_model()
+    form_class = ProfileForm
     template_name = "account/profile.html"
-    fields = ["username", "first_name", "last_name", "country", "age", "password", "avatar"]
+    # fields = ["username", "first_name", "last_name", "country", "age", "avatar"]
 
     def get_success_url(self):
         return reverse_lazy("account:profile", args=[self.request.user.pk])

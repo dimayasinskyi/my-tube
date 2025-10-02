@@ -9,6 +9,15 @@
     <title>MyTube</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
+    <style>
+        .hidden {
+            display: none;
+        }
+
+        .active {
+            color: rgb(221, 0, 0);
+        }
+    </style>
 </head>
 
 <body class="bg-gray-100">
@@ -38,11 +47,14 @@
                     event.preventDefault();
 
                     const query = searchInput.value.trim();
+                    const baseUrl = "{% url 'content:home' %}";
 
                     if (query) {
-                        const baseUrl = "{% url 'content:home' %}";
                         window.location.href = `${baseUrl}?search=${encodeURIComponent(query)}`;
                         searchInput.value = query;
+                    }
+                    else {
+                        window.location.href = baseUrl;
                     }
                 }
             });

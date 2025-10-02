@@ -1,15 +1,20 @@
+{% load nav_active %}
+
 <aside class="w-64 bg-white p-4 shadow space-y-2">
     <h2 class="font-bold mb-2">Menu</h2>
     <ul class="space-y-1">
         <li><a href="{% url 'content:home' %}" class="hover:text-red-600">Home</a></li>
-        <li><a href="{% url 'account:profile' request.user.pk %}" class="hover:text-red-600">My Profile</a></li>
+        <li><a href="{% url 'account:profile' request.user.pk %}" class="{% active 'profile' %} hover:text-red-600">My
+                Profile</a></li>
         {% if request.user.channel %}
-        <li><a href="{% url 'channel:profile_channel' request.user.channel.pk %}" class="hover:text-red-600">My
+        <li><a href="{% url 'channel:profile_channel' request.user.channel.pk %}"
+                class="{% active 'profile_channel' %} hover:text-red-600">My
                 Channel</a></li>
+        <li><a href="{% url 'content:create_video' %}" class="{% active 'create_video' %} hover:text-red-600">Upload
+                Video</a></li>
         {% else %}
         <li><a href="{% url 'channel:create_channel' %}" class="hover:text-red-600">Create channel</a></li>
         {% endif %}
-        <li><a href="{% url 'content:create_video' %}" class="hover:text-red-600">Upload Video</a></li>
         <li><a href="{% url 'account:log_out' %}" class="hover:text-red-600">log out</a></li>
     </ul>
 </aside>
