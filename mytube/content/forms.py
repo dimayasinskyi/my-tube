@@ -4,6 +4,7 @@ from .models import Video
 
 
 class VideoCreateForm(forms.ModelForm):
+    """Form with fields: ["title", "description", "tags", "file"]."""
     class Meta:
         model = Video
         fields = ["title", "description", "tags", "file"]

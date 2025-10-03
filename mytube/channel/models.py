@@ -33,6 +33,7 @@ class Channel(models.Model):
         return self.name
     
     def get_avatar_url(self):
+        """Returns self.avatar.url or self.author.avatar.url or url default avatar."""
         if self.avatar:
             return self.avatar.url
         if self.author.avatar:
@@ -40,6 +41,7 @@ class Channel(models.Model):
         return static("default/avatar_default.png")
     
     def get_banner_url(self):
+        """Returns self.banner.url or url default banner."""
         if self.banner:
             return self.banner.url
         return static("default/banner_default.png")

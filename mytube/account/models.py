@@ -45,6 +45,7 @@ class CustomUser(AbstractUser):
         return self.get_full_name() or self.username
     
     def get_avatar_url(self):
+        """Returns self.avatar.url or url default avatar"""
         if self.avatar:
             return self.avatar.url
         return static("default/avatar_default.png")

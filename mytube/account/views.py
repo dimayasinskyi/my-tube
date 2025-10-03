@@ -1,29 +1,31 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
-from django.contrib.auth.forms import AuthenticationForm
 from django.views import View
 from django.views.generic import UpdateView
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
 
-from .forms import RegisterForm, ProfileForm
+from .forms import RegisterForm, ProfileForm, LoginForm
 
 
 class AthenticationView(View):
+    """Registration and login page."""
     template_name = "account/authentication.html"
 
     def get(self, request):
+        """Connects two forms with prefixes: reg, login."""
         context = {
             "register_form": RegisterForm(prefix="reg"),
-            "login_form": AuthenticationForm(prefix="login"),
+            "login_form": LoginForm(prefix="login"),
         }
         return render(request, self.template_name, context)
     
     def post(self, request):
+        """Creates an account and logs in or simply logs into an existing account."""
         if "register_submit" in request.POST:
             register_form = RegisterForm(request.POST)
-            login_form = AuthenticationForm(prefix="login")
+            login_form = LoginForm(prefix="login")
             if register_form.is_valid():
                 user = register_form.save()
                 login(request, user)
@@ -31,7 +33,7 @@ class AthenticationView(View):
             messages.error(request, register_form.errors)
             
         elif "login_submit" in request.POST:
-            login_form = AuthenticationForm(request, data=request.POST, prefix="login")
+            login_form = LoginForm(request, data=request.POST, prefix="login")
             register_form = RegisterForm(prefix="reg")
             if login_form.is_valid():
                 user = login_form.get_user()
@@ -40,7 +42,7 @@ class AthenticationView(View):
        
         else:
             register_form = RegisterForm(prefix="reg")
-            login_form = AuthenticationForm(prefix="login")
+            login_form = LoginForm(prefix="login")
 
         return render(request, self.template_name, {
             "register_form": register_form,
@@ -49,22 +51,24 @@ class AthenticationView(View):
     
 
 def log_out(request):
+    """Logs out of account."""
     if request.user.is_authenticated:
         logout(request)
         return redirect("content:home")
 
 
 class ProfileUpdateView(UpdateView):
+    """Passes the form ProfileForm to the template."""
     model = get_user_model()
     form_class = ProfileForm
     template_name = "account/profile.html"
-    # fields = ["username", "first_name", "last_name", "country", "age", "avatar"]
 
     def get_success_url(self):
         return reverse_lazy("account:profile", args=[self.request.user.pk])
     
     def get_context_data(self, **kwargs):
+        """Breadcrumb navigation."""
         context = super().get_context_data(**kwargs)
-
-        context["breadcrumbs"] = [{"name": "Home", "url": reverse_lazy("content:home")}, {"name": "User profile", "url": ""}]
+        context["breadcrumbs"] = [{"name": "Home", "url": reverse_lazy("content:home")},
+                                  {"name": "User profile", "url": ""}]
         return context 

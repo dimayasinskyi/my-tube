@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 
+
 {% load static %}
+
 
 <html lang="en">
 
@@ -9,25 +11,21 @@
     <title>MyTube</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
-    <style>
-        .hidden {
-            display: none;
-        }
-
-        .active {
-            color: rgb(221, 0, 0);
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
 <body class="bg-gray-100">
-    <!-- Navbar -->
+
     <nav class="bg-white shadow p-4 flex justify-between items-center">
+
+        <!-- Search -->
         <div class="flex items-center space-x-4">
             <span class="text-2xl font-bold text-red-600">MyTube</span>
-            <input id="searchInput" type="text" placeholder="Search" value="{{ request.GET.search }}"
-                class="border rounded px-2 py-1">
+            <input id="searchInput" type="text" data-base-url="{% url 'content:home' %}" placeholder="Search"
+                value="{{ request.GET.search }}" class="border rounded px-2 py-1">
         </div>
+
+        <!-- Button -->
         <div>
             {% if request.user.is_authenticated %}
             <a class="bg-red-600 text-white px-4 py-1 rounded"
@@ -37,29 +35,13 @@
             {% endif %}
         </div>
     </nav>
+
+    <!-- Content -->
     {% block content %} {% endblock %}
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const searchInput = document.getElementById("searchInput");
 
-            searchInput.addEventListener("keydown", function (event) {
-                if (event.key === "Enter") {
-                    event.preventDefault();
+    <!-- Script -->
+    <script src="{% static 'js/base.js' %}"></script>
 
-                    const query = searchInput.value.trim();
-                    const baseUrl = "{% url 'content:home' %}";
-
-                    if (query) {
-                        window.location.href = `${baseUrl}?search=${encodeURIComponent(query)}`;
-                        searchInput.value = query;
-                    }
-                    else {
-                        window.location.href = baseUrl;
-                    }
-                }
-            });
-        });
-    </script>
 </body>
 
 </html>

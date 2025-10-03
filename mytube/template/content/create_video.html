@@ -3,11 +3,18 @@
 
 {% block content %}
 
-{% include 'includes/sidebar.html' %}
 
 <main class="flex-1 p-6">
+
+    <!-- Navigation bar -->
+    {% include 'includes/sidebar.html' %}
+
     <div class="bg-white shadow rounded p-6 max-w-2xl mx-auto">
+
+        <!-- Breadcrumbs -->
         {% include 'includes/breadcrumbs.html' %}
+
+        <!-- Form upload video -->
         <h2 class="text-2xl font-bold mb-4 text-gray-800">Upload a New Video</h2>
 
         <form method="POST" enctype="multipart/form-data" class="space-y-4">
@@ -31,5 +38,4 @@
 
     </div>
 </main>
-</div>
 {% endblock %}

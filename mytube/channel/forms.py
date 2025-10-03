@@ -4,6 +4,7 @@ from .models import Channel
 
 
 class ChannelForm(forms.ModelForm):
+    """The form for the model Channel has fields: ["name", "avatar", "banner", "poenitization"]."""
     class Meta:
         model = Channel
         fields = ["name", "avatar", "banner", "poenitization"]

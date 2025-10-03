@@ -1,7 +1,9 @@
 {% load nav_active %}
 
+
 <aside class="w-64 bg-white p-4 shadow space-y-2">
     <h2 class="font-bold mb-2">Menu</h2>
+
     <ul class="space-y-1">
         <li><a href="{% url 'content:home' %}" class="hover:text-red-600">Home</a></li>
         <li><a href="{% url 'account:profile' request.user.pk %}" class="{% active 'profile' %} hover:text-red-600">My

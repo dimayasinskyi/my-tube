@@ -1,0 +1,7 @@
+.hidden {
+  display: none;
+}
+
+.active {
+  color: rgb(221, 0, 0);
+}

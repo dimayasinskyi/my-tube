@@ -2,12 +2,13 @@
 
 {% load nav_active %}
 
+
 {% block content %}
 <div class="flex mt-4">
 
     <!-- Sidebar -->
     <aside class="w-64 bg-white p-4 shadow space-y-2">
-        <h2 class="font-bold mb-2">Categories</h2>
+        <h2 class="font-bold mb-2">Tags</h2>
         <ul class="space-y-1">
             {% for tag in tags %}
             <li><a href="?tag={{ tag.id }}" class="{% active_tags tag.id %} hover:text-red-600">{{ tag }}</a></li>
@@ -15,10 +16,12 @@
         </ul>
     </aside>
 
-    <!-- Main content -->
+    <!-- Content -->
     <main class="flex-1 p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+
         <!-- Video card -->
         {% for video in videos %}
+
         <a href="{{ video.file.url }}">
             <div class="bg-white shadow rounded overflow-hidden">
                 <div class="relative">
@@ -32,15 +35,18 @@
                 </div>
             </div>
         </a>
+
         {% empty %}
         <p class="text-gray-500 col-span-full">Video not found.</p>
         {% endfor %}
     </main>
 </div>
+
 {% if is_paginated %}
 <div class="flex justify-center mt-6">
     <nav class="inline-flex rounded-md shadow">
-        <!-- Previous Page -->
+
+        <!-- Previous page -->
         {% if page_obj.has_previous %}
         <a href="?page={{ page_obj.previous_page_number }}{{ querystring }}"
             class="px-3 py-1 border border-gray-300 bg-white text-gray-700 hover:bg-gray-100 rounded-l-md">
@@ -52,7 +58,7 @@
         </span>
         {% endif %}
 
-        <!-- Page Numbers -->
+        <!-- Page numbers -->
         {% for num in paginator.page_range %}
         {% if page_obj.number == num %}
         <span class="px-3 py-1 border border-red-500 bg-red-500 text-white">{{ num }}</span>
@@ -64,7 +70,7 @@
         {% endif %}
         {% endfor %}
 
-        <!-- Next Page -->
+        <!-- Next page -->
         {% if page_obj.has_next %}
         <a href="?page={{ page_obj.next_page_number }}{{ querystring }}"
             class="px-3 py-1 border border-gray-300 bg-white text-gray-700 hover:bg-gray-100 rounded-r-md">
@@ -75,6 +81,7 @@
             Next →
         </span>
         {% endif %}
+        
     </nav>
 </div>
 {% endif %}

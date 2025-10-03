@@ -4,6 +4,10 @@ from .models import Video
 
 
 class VideoSerializer(serializers.ModelSerializer):
+    """
+    Serializes data to send it to other services
+    data: ["user_id", "video_id", "duration_watched", "views", "likes", "tags", "country"]
+    """
     user_id = serializers.SerializerMethodField()
     video_id = serializers.IntegerField(source="id")
     duration_watched = serializers.SerializerMethodField()

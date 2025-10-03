@@ -13,6 +13,7 @@ app.config_from_object("django.conf.settings", namespace="CELERY")
 
 @app.task
 def create_recommendation(user, serializers):
+    """Makes a request to the recommendations microservice, sorts and updates the Recommendations model video."""
     from content.models import Recommendations
 
     response = requests.post(settings.RECOMMENDATION_SERVICE_URL, json=serializers.data)
@@ -23,6 +24,7 @@ def create_recommendation(user, serializers):
 
 @app.task
 def send_info_user_tg(request, response):
+    """Sends information about requests to the TG bot."""
     ip = request.META.get('HTTP_X_FORWARDED_FOR')
     if ip:
         ip = ip.split(',')[0]

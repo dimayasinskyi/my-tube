@@ -1,18 +1,29 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
+
 {% block content %}
 <div class="flex mt-4">
+
+    <!-- Navigation bar -->
     {% include 'includes/sidebar.html' %}
 
     <main class="flex-1 p-4 space-y-6">
+
+        <!-- Breadcrumbs -->
         {% include 'includes/breadcrumbs.html' %}
+
         <div class="bg-white shadow rounded overflow-hidden">
+
+            <!-- Banner -->
             <label for="banner-input" class="cursor-pointer">
                 <img src="{{ request.user.channel.get_banner_url }}" alt="Banner" class="w-full h-48 object-cover">
             </label>
 
             <div class="flex items-center p-6 space-x-6">
 
+                <!-- Avatar -->
                 <label for="avatar-input" class="cursor-pointer">
                     <div
                         class="w-24 h-24 bg-gray-300 rounded-full flex items-center justify-center text-2xl text-white overflow-hidden">
@@ -21,6 +32,7 @@
                     </div>
                 </label>
 
+                <!-- Profile channel -->
                 <div class="flex-1">
                     <h2 class="text-2xl font-bold mb-4 text-gray-800">Channel</h2>
                     <form method="post" enctype="multipart/form-data" class="space-y-4" id="channelForm">
@@ -41,17 +53,20 @@
                                 delete
                             </a>
                         </div>
-                        
-                    </form>
 
+                    </form>
                 </div>
+
             </div>
         </div>
 
+        <!-- Video -->
         <section>
             <h2 class="text-xl font-bold mb-4">Your Videos</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {% for video in request.user.channel.videos.all %}
+
+                <!-- Card video -->
                 <a href="{{ video.file.url }}">
                     <div class="bg-white shadow rounded overflow-hidden hover:shadow-lg transition">
                         <div class="relative">
@@ -64,6 +79,7 @@
                         </div>
                     </div>
                 </a>
+
                 {% empty %}
                 <p class="text-gray-500 col-span-full">You haven't uploaded any videos yet.</p>
                 <div class="pt-4">
@@ -79,24 +95,6 @@
     </main>
 </div>
 
-<script>
-    const form = document.getElementById("channelForm");
-    document.getElementById("avatar-input").addEventListener("change", function (event) {
-        const [file] = event.target.files;
-        if (file) {
-            const preview = document.querySelector("label[for='avatar-input'] img");
-            preview.src = URL.createObjectURL(file);
-        }
-        form.submit();
-    });
-
-    document.getElementById("banner-input").addEventListener("change", function (event) {
-        const [file] = event.target.files;
-        if (file) {
-            const preview = document.querySelector("label[for='banner-input'] img");
-            preview.src = URL.createObjectURL(file);
-        }
-        form.submit()
-    })
-</script>
+<!-- Script -->
+<script src="{% static 'js/channel/profile.js' %}"></script>
 {% endblock %}

@@ -5,6 +5,7 @@ from django.conf import settings
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_recommendation_for_user(sender, instance, created, **kwargs):
+    """When creating a user, it creates a recommendation model for them."""
     if created:
         from content.models import Recommendations
         Recommendations.objects.create(user=instance)

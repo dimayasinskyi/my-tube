@@ -1,5 +1,3 @@
-from django.conf import settings
-
 from .celery import send_info_user_tg
 
 
