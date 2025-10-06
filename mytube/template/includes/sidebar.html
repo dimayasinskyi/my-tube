@@ -16,6 +16,11 @@
                 Video</a></li>
         {% else %}
         <li><a href="{% url 'channel:create_channel' %}" class="hover:text-red-600">Create channel</a></li>
+        <!-- <li>
+            <form method="post">{% csrf_token %}<button action="action" value="create" type="submit"
+                    class="hover:text-red-600">Create
+                    channel</button></form>
+        </li> -->
         {% endif %}
         <li><a href="{% url 'account:log_out' %}" class="hover:text-red-600">log out</a></li>
     </ul>

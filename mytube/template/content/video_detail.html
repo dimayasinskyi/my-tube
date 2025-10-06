@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mx-2 mt-6 flex gap-6">
+    <!-- Main video section -->
+    <div class="flex-1">
+        <!-- Video player -->
+        <div class="w-full bg-black">
+            <video controls class="w-full h-96 rounded-lg">
+                <source src="{{ video.file.url }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <!-- Video title -->
+        <h1 class="text-2xl font-semibold mt-4">{{ video.title }}</h1>
+
+        <!-- Video info -->
+        <div class="flex justify-between items-center mt-2 text-gray-600 text-sm">
+            <div>{{ video.views }} views • {{ video.uploaded_at|date:"F j, Y" }}</div>
+            <form method="post" class="flex gap-2">
+                {% csrf_token %}
+
+                <span>{{ video.likes }}</span>
+
+                <!-- Like кнопка -->
+                <button type="submit" name="action" value="like" class="{% if not request.user.is_authenticated %}disabled opacity-50{% elif liked %}text-blue-800{% endif %}
+                 flex items-center gap-1 hover:text-blue-600">
+                    👍 Like
+                </button>
+                <!-- Dislike кнопка -->
+                <button type="submit" name="action" value="dislike" class="{% if not request.user.is_authenticated %}disabled opacity-50{% elif liked == False %}text-blue-800{% endif %}
+                 flex items-center gap-1 hover:text-blue-600">
+                    👎 Dislike
+                </button>
+            </form>
+        </div>
+
+        <!-- Channel -->
+        <div class="flex items-center justify-between mt-3">
+            <div class="flex items-center gap-3">
+
+                <img src="{{ video.channel.get_avatar_url }}" alt="{{ video.channel.name }}"
+                    class="w-12 h-12 rounded-full object-cover">
+                <div>
+
+                    <a href="{% url 'channel:view_channel' video.channel.pk %}"
+                        class="font-semibold text-gray-900 hover:underline">
+                        {{ video.channel.name }}
+                    </a>
+                    <!-- <p class="text-sm text-gray-500">{{ video.channel.subscribers.count }} subscribers</p> -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Comments section -->
+        <div class="mt-6">
+            <h2 class="text-lg font-semibold mb-3">Comments</h2>
+
+            <!-- Comment form -->
+            <form method="post" id="commentForm">
+                {% csrf_token %}
+                {{ form.text }}
+                <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Comment</button>
+            </form>
+
+            <!-- Existing comments -->
+            <div class="mt-4 space-y-4">
+                {% for comment in video.comments.all %}
+                <div class="flex gap-3">
+                    <img src="{{ comment.author.get_avatar_url }}" alt="{{ comment.author.username }}"
+                        class="w-10 h-10 bg-gray-300 rounded-full flex-shrink-0">
+                    <div>
+                        <div class="text-sm font-semibold">{{ comment.author.username }} • <span
+                                class="text-gray-500 text-xs">{{ comment.created_at|timesince }} ago</span></div>
+                        <p class="text-gray-700">{{ comment.text }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar recommended videos -->
+    <div class="w-80 flex-shrink-0 space-y-4">
+        {% for rec_video in rec_videos %}
+        <a href="{% url 'content:view_video' video.pk %}" class="flex gap-3 hover:bg-gray-100 p-2 rounded">
+            <img src="{{ video.thumbnail_url }}" alt="{{ video.title }}" class="w-32 h-20 object-cover rounded">
+            <div class="flex-1">
+                <h3 class="text-sm font-semibold">{{ rec_video.title|truncatechars:50 }}</h3>
+                <p class="text-xs text-gray-500">{{ rec_video.channel.name }}</p>
+                <p class="text-xs text-gray-500">{{ rec_video.views }} views</p>
+            </div>
+        </a>
+        <hr>
+        {% endfor %}
+    </div>
+</div>
+
+<script src="{% static 'js/content/video_detail.js' %}"></script>
+{% endblock %}

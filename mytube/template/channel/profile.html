@@ -48,10 +48,11 @@
                             </button>
                         </div>
                         <div>
-                            <a href="{% url 'channel:delete_channel' %}"
-                                class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
-                                delete
-                            </a>
+                            <form method="post">
+                                {% csrf_token %}
+                                <button name="action" value="delete" type="submit"
+                                    class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">Delete</button>
+                            </form>
                         </div>
 
                     </form>
@@ -67,7 +68,7 @@
                 {% for video in request.user.channel.videos.all %}
 
                 <!-- Card video -->
-                <a href="{{ video.file.url }}">
+                <a href="{% url 'content:view_video' video.pk %}">
                     <div class="bg-white shadow rounded overflow-hidden hover:shadow-lg transition">
                         <div class="relative">
                             <img src="{{ video.thumbnail_url }}" alt="{{ video.title }}"

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+<div class="container mx-auto mt-6">
+
+    <div class="mb-4">
+        <button onclick="window.history.back()"
+            class="flex items-center gap-2 bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded-lg transition">
+            ← Back
+        </button>
+    </div>
+
+    <!-- Banner -->
+    <div class="w-full h-48 rounded-lg overflow-hidden">
+        <img src="{{ channel.get_banner_url }}" alt="{{ channel.name }}" class="w-full h-full object-cover">
+    </div>
+
+    <!-- Channel info -->
+    <div class="flex items-center justify-between mt-4">
+        <div class="flex items-center gap-4">
+            <img src="{{ channel.get_avatar_url }}" alt="{{ channel.name }}"
+                class="w-20 h-20 rounded-full object-cover border">
+            <div>
+                <h1 class="text-2xl font-bold">{{ channel.name }}</h1>
+                <p class="text-gray-600 text-sm">
+                    Created {{ channel.created_at|date:"F j, Y" }}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Channel videos -->
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-4 gap-6">
+        {% for video in channel.videos.all %}
+        <a href="{% url 'content:view_video' video.pk %}" class="block hover:bg-gray-100 rounded-lg p-2">
+            <img src="{{ video.thumbnail_url }}" alt="{{ video.title }}" class="w-full h-40 object-cover rounded-lg">
+            <h2 class="mt-2 text-sm font-semibold text-gray-900 truncate">{{ video.title }}</h2>
+            <p class="text-xs text-gray-500">{{ video.views }} views • {{ video.uploaded_at|date:"M j, Y" }}</p>
+        </a>
+        {% empty %}
+        <p class="text-gray-500">This channel has no videos yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

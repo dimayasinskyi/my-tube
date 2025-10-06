@@ -1,11 +1,11 @@
-from django.conf import settings
-from django.views.generic import CreateView, ListView
+from django.shortcuts import redirect
+from django.views.generic import CreateView, ListView, DetailView
 from django.urls import reverse_lazy
 
 from mytube.celery import create_recommendation
-from .models import Recommendations, Video, Tag
+from .models import Recommendations, Video, Tag, UserWatchHistory
 from .serializers import VideoSerializer
-from .forms import VideoCreateForm
+from .forms import VideoCreateForm, VideoCommentCreateForm
 
 
 class Home(ListView):
@@ -31,10 +31,11 @@ class Home(ListView):
         it simply returns them or, if the user is not authorized, otherwise shows personalized
         recommendations for the user and creates a task to update them.
         """
-        if (self.request.GET.get("search") or self.request.GET.get("tag")) or not self.request.user.is_authenticated:
+        user = self.request.user
+
+        if (self.request.GET.get("search") or self.request.GET.get("tag")) or not user.is_authenticated:
             return self.get_videos(Video.objects.all())[:50]
 
-        user = self.request.user
         serializer = VideoSerializer(self.get_videos(Video.objects.all()), many=True, context={"user": user})
         recommendations = Recommendations.objects.get(user=user).video.all()
         create_recommendation(user, serializer)
@@ -53,12 +54,14 @@ class Home(ListView):
         return context
 
 
-class VideoCreateVideo(CreateView):
+class VideoCreateView(CreateView):
     """Presenting a form VideoCreateForm for creating a video"""
     model = Video
     form_class = VideoCreateForm
     template_name = "content/create_video.html"
-    success_url = reverse_lazy("account:profile")
+
+    def get_success_url(self):
+        return reverse_lazy("account:profile", args=[self.request.user.pk])
 
     def form_valid(self, form):
         """Transfers the feed automatically to the form."""
@@ -76,3 +79,55 @@ class VideoCreateVideo(CreateView):
             {"name": "Create video", "url": ""}
             ]
         return context 
+    
+
+class VideoDetailView(DetailView):
+    model = Video
+    template_name = "content/video_detail.html"
+
+    def get_context_data(self, **kwargs):
+        """Adds two variables to the context: ["rec_videos", "liked", "form"]"""
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+
+        if user.is_authenticated:
+            serializer = VideoSerializer(Video.objects.all(), many=True, context={"user": user})
+            rec_video = Recommendations.objects.get(user=user).video.order_by("?")[:10]
+            create_recommendation(user, serializer)
+            video_liked = UserWatchHistory.objects.get(user=user, video=self.get_object()).liked
+        else:
+            rec_video = Video.objects.order_by("?")[:10]
+            video_liked = None
+        
+        context["rec_videos"] = rec_video
+        context["liked"] = video_liked
+        context["form"] = VideoCommentCreateForm()
+        return context
+    
+    def get_object(self, *args, **kwargs):
+        video = super().get_object(*args, **kwargs)
+        user = self.request.user
+        if user.is_authenticated:
+            UserWatchHistory.objects.add_video(video=video, user=user)
+        return video 
+    
+    def post(self, request, *args, **kwargs):
+        """Takes a value from a form and calls appropriate actions on the value."""
+        video = self.get_object()
+        user = request.user
+
+        if user.is_authenticated:
+            action = request.POST.get("action")
+            if action == "like":
+                video.user_like(user=request.user)
+            elif action == "dislike":
+                video.user_dislike(user=request.user)
+            else:
+                form = VideoCommentCreateForm(request.POST)
+                if form.is_valid():
+                    comment = form.save(commit=False)
+                    comment.author = user
+                    comment.video = video
+                    comment.save()
+
+        return redirect("content:view_video", pk=video.pk)

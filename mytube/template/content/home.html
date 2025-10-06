@@ -22,7 +22,7 @@
         <!-- Video card -->
         {% for video in videos %}
 
-        <a href="{{ video.file.url }}">
+        <a href="{% url 'content:view_video' video.pk %}">
             <div class="bg-white shadow rounded overflow-hidden">
                 <div class="relative">
                     <img src="{{ video.thumbnail_url }}" alt="{{ video.title }}" class="w-full h-48 object-cover">
@@ -81,7 +81,7 @@
             Next →
         </span>
         {% endif %}
-        
+
     </nav>
 </div>
 {% endif %}

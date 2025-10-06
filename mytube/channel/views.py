@@ -1,5 +1,5 @@
 from django.shortcuts import redirect
-from django.views.generic import UpdateView
+from django.views.generic import UpdateView, DetailView
 from django.urls import reverse_lazy
 
 from .models import Channel
@@ -10,13 +10,6 @@ def create_channel(request):
     """Creates a channel for the user."""
     if request.user.is_authenticated:
         Channel.objects.create(author=request.user, name=request.user.username)
-        return redirect("account:profile", pk=request.user.pk)
-
-
-def delete_channel(request):
-    """Deletes a user's channel."""
-    if request.user.is_authenticated:
-        Channel.objects.get(author=request.user).delete()
         return redirect("account:profile", pk=request.user.pk)
     
 
@@ -45,3 +38,18 @@ class ChannelUpdateView(UpdateView):
             {"name": "Channel profile", "url": ""},
         ]
         return context 
+    
+    def post(self, request, *args, **kwargs):
+        """Deletes a user's channel."""
+        channel = self.get_object()
+
+        if request.user.is_authenticated:
+            action = request.POST.get("action")
+            if action == "delete":
+                channel.delete()
+            return redirect("account:profile", pk=request.user.pk)
+
+
+class ChannelDetailView(DetailView):
+    model = Channel
+    template_name = "channel/channel_detail.html"

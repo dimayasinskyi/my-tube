@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Video
+from .models import Video, VideoComment
 
 
 class VideoCreateForm(forms.ModelForm):
@@ -26,3 +26,14 @@ class VideoCreateForm(forms.ModelForm):
                 "class": "block w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-red-300"
             })
         }
+
+
+class VideoCommentCreateForm(forms.ModelForm):
+    """The form for creating comments under the video has a field: ["text"]"""
+    text = forms.CharField(widget=forms.TextInput(attrs={
+                "placeholder": "Add a public comment...",
+                "class": "w-full border rounded px-3 py-2 mb-2 focus:outline-none focus:ring-2 focus:ring-blue-400",
+            }))
+    class Meta:
+        model = VideoComment
+        fields = ["text"]

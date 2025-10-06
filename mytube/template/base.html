@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 
-
 {% load static %}
 
 
@@ -20,7 +19,7 @@
 
         <!-- Search -->
         <div class="flex items-center space-x-4">
-            <span class="text-2xl font-bold text-red-600">MyTube</span>
+            <a class="text-2xl font-bold text-red-600" href="{% url 'content:home' %}">MyTube</a>
             <input id="searchInput" type="text" data-base-url="{% url 'content:home' %}" placeholder="Search"
                 value="{{ request.GET.search }}" class="border rounded px-2 py-1">
         </div>
