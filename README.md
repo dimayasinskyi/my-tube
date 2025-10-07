@@ -5,28 +5,28 @@
 ## 📸 Screenshots
 
 ### 🏠 Home page
-![Home Page](https://github.com/dimayasinskyi/my-tube/tree/main/mytube/static/readme/home.png)
+![Home Page](https://github.com/dimayasinskyi/my-tube/blob/main/mytube/static/readme/home.png)
 
 ### 🏠 Video detail
-![Video detail](https://github.com/dimayasinskyi/my-tube/tree/main/mytube/static/readme/video_detail.png)
+![Video detail](https://github.com/dimayasinskyi/my-tube/blob/main/mytube/static/readme/video_detail.png)
 
 ### 🏠 Upload video
-![Upload video](https://github.com/dimayasinskyi/my-tube/tree/main/mytube/static/readme/upload_video.png)
+![Upload video](https://github.com/dimayasinskyi/my-tube/blob/main/mytube/static/readme/upload_video.png)
 
 ### 🏠 Channel profile
-![Channel profile](https://github.com/dimayasinskyi/my-tube/tree/main/mytube/static/readme/channel_profile.png)
+![Channel profile](https://github.com/dimayasinskyi/my-tube/blob/main/mytube/static/readme/channel_profile.png)
 
 ### 🏠 Channel detail
-![Channel detail](https://github.com/dimayasinskyi/my-tube/tree/main/mytube/static/readme/channel_detail.png)
+![Channel detail](https://github.com/dimayasinskyi/my-tube/blob/main/mytube/static/readme/channel_detail.png)
 
 ### 🏠 User profile
-![User profile](https://github.com/dimayasinskyi/my-tube/tree/main/mytube/static/readme/user_profile.png)
+![User profile](https://github.com/dimayasinskyi/my-tube/blob/main/mytube/static/readme/user_profile.png)
 
 ### 🏠 Registration
-![Registration](https://github.com/dimayasinskyi/my-tube/tree/main/mytube/static/readme/registration.png)
+![Registration](https://github.com/dimayasinskyi/my-tube/blob/main/mytube/static/readme/registration.png)
 
 ### 🏠 Login
-![Login](https://github.com/dimayasinskyi/my-tube/tree/main/mytube/static/readme/login.png)
+![Login](https://github.com/dimayasinskyi/my-tube/blob/main/mytube/static/readme/login.png)
 
 ---
 
@@ -46,7 +46,7 @@
 
 ## 🛠 Technologies Used
 
-- **Backend:** Django (Function-Based Views/Class-Based Views)
+- **Backend:** Django (Function-Based Views, Class-Based Views, Generic CBV)
 - **Database:** SQLite/postgreSQL
 - **Frontend:** HTML, CSS, JAVASCRIPT, Bootstrap
 - **Other tools:** Git, GitHub, Celery, Redis, Cloudinary, basic Docker usage
