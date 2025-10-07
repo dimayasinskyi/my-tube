@@ -15,6 +15,7 @@
 
         <!-- Video title -->
         <h1 class="text-2xl font-semibold mt-4">{{ video.title }}</h1>
+        <p>{{ video.description }}</p>
 
         <!-- Video info -->
         <div class="flex justify-between items-center mt-2 text-gray-600 text-sm">
@@ -49,7 +50,6 @@
                         class="font-semibold text-gray-900 hover:underline">
                         {{ video.channel.name }}
                     </a>
-                    <!-- <p class="text-sm text-gray-500">{{ video.channel.subscribers.count }} subscribers</p> -->
                 </div>
             </div>
         </div>

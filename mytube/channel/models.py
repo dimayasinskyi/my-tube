@@ -13,12 +13,15 @@ class Channel(models.Model):
     To highlight users who create videos.
 
     Has fields:
+    - name
+    - avatar
+    - banner
     - author
     - poenitization
     - created_at
 
     Methods:
-    - str: returns name
+    - str: returns name or username author
     - get_avatar_url: url avatar or url avatar user or default url avatar
     - get_banner_url: url banner or default url banner
     """
@@ -30,7 +33,7 @@ class Channel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.name} | {self.author.username}"
     
     def get_avatar_url(self):
         """Returns self.avatar.url or self.author.avatar.url or url default avatar."""
