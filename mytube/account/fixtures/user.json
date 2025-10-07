@@ -1,0 +1,23 @@
+[
+  {
+    "model": "account.customuser",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$giCIyrfkIhKYS3Prn5dqEU$r4HQFVBvF2YZkxDaTuuzN26ded65agEpXl4NDoWIjnc=",
+      "last_login": "2025-10-07T17:42:11.362Z",
+      "is_superuser": true,
+      "username": "Dima",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2025-10-07T17:40:48.309Z",
+      "avatar": "",
+      "country": null,
+      "age": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  }
+]

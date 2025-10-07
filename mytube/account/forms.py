@@ -7,15 +7,15 @@ class RegisterForm(UserCreationForm):
     """Registration form with fields: ["first_name", "last_name", "username", "country", "age", "password1", "password2"]."""
     username = forms.CharField(max_length=150, widget=forms.TextInput(attrs={
         "placeholder": "Username",
-        "class": "w-full border rounded px-3 py-1 mb-3",
+        "class": "w-full border rounded px-3 py-1 mb-2",
     }))
     password1 = forms.CharField(label="Password", widget=forms.PasswordInput(attrs={
-        "placeholder": "Repeat password",
-        "class": "w-full border rounded px-3 py-1 mb-3",
+        "placeholder": "Password",
+        "class": "w-full border rounded px-3 py-1 mb-2",
     }))
     password2 = forms.CharField(label="Repeat Password", widget=forms.PasswordInput(attrs={
         "placeholder": "Repeat password",
-        "class": "w-full border rounded px-3 py-1 mb-3",
+        "class": "w-full border rounded px-3 py-1 mb-2",
     }))
 
     class Meta:
@@ -24,18 +24,18 @@ class RegisterForm(UserCreationForm):
         widgets = {
             "first_name": forms.TextInput(attrs={
                 "placeholder": "First name",
-                "class": "w-full border rounded px-3 py-1 mb-3",
+                "class": "w-full border rounded px-3 py-1 mb-2",
             }),
             "last_name": forms.TextInput(attrs={
                 "placeholder": "Last name",
-                "class": "w-full border rounded px-3 py-1 mb-3",
+                "class": "w-full border rounded px-3 py-1 mb-2",
             }),
             "country": forms.Select(attrs={
-                "class": "w-full border rounded px-3 py-1 mb-3",
+                "class": "w-full border rounded px-3 py-1 mb-2",
             }),
             "age": forms.NumberInput(attrs={
                 "placeholder": "Age",
-                "class": "w-full border rounded px-3 py-1 mb-3",
+                "class": "w-full border rounded px-3 py-1 mb-2",
             }),
         }
 

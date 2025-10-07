@@ -1,3 +1,8 @@
-*__pycache__
+__pycache__/
+venv/
+nginx-1.28.0/
 db.sqlite3
-nginx-1.28.0
+.env
+Pipfile
+Pipfile.lock
+README.md

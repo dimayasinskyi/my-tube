@@ -38,7 +38,7 @@ class ChannelUpdateView(UpdateView):
             {"name": "Channel profile", "url": ""},
         ]
         return context 
-    
+
     def post(self, request, *args, **kwargs):
         """Deletes a user's channel."""
         channel = self.get_object()
@@ -47,7 +47,9 @@ class ChannelUpdateView(UpdateView):
             action = request.POST.get("action")
             if action == "delete":
                 channel.delete()
-            return redirect("account:profile", pk=request.user.pk)
+                return redirect("account:profile", pk=request.user.pk)
+            
+        return super().post(request, *args, **kwargs) 
 
 
 class ChannelDetailView(DetailView):

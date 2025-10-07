@@ -24,21 +24,21 @@ class AthenticationView(View):
     def post(self, request):
         """Creates an account and logs in or simply logs into an existing account."""
         if "register_submit" in request.POST:
-            register_form = RegisterForm(request.POST)
-            login_form = LoginForm(prefix="login")
+            register_form = RegisterForm(request.POST, prefix="reg")
             if register_form.is_valid():
                 user = register_form.save()
                 login(request, user)
                 return redirect("content:home")
+            login_form = LoginForm(prefix="login")
             messages.error(request, register_form.errors)
             
         elif "login_submit" in request.POST:
             login_form = LoginForm(request, data=request.POST, prefix="login")
-            register_form = RegisterForm(prefix="reg")
             if login_form.is_valid():
                 user = login_form.get_user()
                 login(request, user)
                 return redirect("content:home")
+            register_form = RegisterForm(prefix="reg")
        
         else:
             register_form = RegisterForm(prefix="reg")

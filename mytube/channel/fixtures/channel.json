@@ -1,0 +1,14 @@
+[
+  {
+    "model": "channel.channel",
+    "pk": 1,
+    "fields": {
+      "name": "Dima",
+      "avatar": "",
+      "banner": "",
+      "author": 1,
+      "poenitization": false,
+      "created_at": "2025-10-07T17:42:22.064Z"
+    }
+  }
+]
