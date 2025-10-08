@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'cloudinary',
     'cloudinary_storage',
 
+    'core',
     'account',
     'channel',
     'content',
@@ -64,12 +65,14 @@ MIDDLEWARE = [
 
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
-    # 'mytube.middleware.SendInfoOfUser',
+    # 'core.middleware.SendInfoOfUser',
 ]
 
 AUTH_USER_MODEL = 'account.CustomUser'
 
 ROOT_URLCONF = 'mytube.urls'
+
+LOGIN_URL = 'account:login'
 
 TEMPLATES = [
     {

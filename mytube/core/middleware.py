@@ -1,4 +1,4 @@
-from .celery import send_info_user_tg
+from mytube.celery import send_info_user_tg
 
 
 class SendInfoOfUser:

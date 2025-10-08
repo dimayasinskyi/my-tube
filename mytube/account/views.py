@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, logout
+from django.core.exceptions import PermissionDenied
+from django.contrib import messages
+from django.contrib.auth import login, logout, get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.views.generic import UpdateView
-from django.contrib import messages
-from django.contrib.auth import get_user_model
-from django.urls import reverse_lazy
+from django.urls import reverse
 
 from .forms import RegisterForm, ProfileForm, LoginForm
 
@@ -48,27 +49,33 @@ class AthenticationView(View):
             "register_form": register_form,
             "login_form": login_form,
         })
-    
+
 
 def log_out(request):
     """Logs out of account."""
     if request.user.is_authenticated:
         logout(request)
-        return redirect("content:home")
+    return redirect("content:home")
 
 
-class ProfileUpdateView(UpdateView):
+class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     """Passes the form ProfileForm to the template."""
     model = get_user_model()
     form_class = ProfileForm
     template_name = "account/profile.html"
 
     def get_success_url(self):
-        return reverse_lazy("account:profile", args=[self.request.user.pk])
+        return reverse("account:profile", args=[self.get_object().pk])
+    
+    def dispatch(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if obj != request.user:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
     
     def get_context_data(self, **kwargs):
         """Breadcrumb navigation."""
         context = super().get_context_data(**kwargs)
-        context["breadcrumbs"] = [{"name": "Home", "url": reverse_lazy("content:home")},
+        context["breadcrumbs"] = [{"name": "Home", "url": reverse("content:home")},
                                   {"name": "User profile", "url": ""}]
         return context 

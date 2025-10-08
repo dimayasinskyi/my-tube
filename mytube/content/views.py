@@ -1,6 +1,7 @@
 from django.shortcuts import redirect
 from django.views.generic import CreateView, ListView, DetailView
-from django.urls import reverse_lazy
+from django.urls import reverse
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from mytube.celery import create_recommendation
 from .models import Recommendations, Video, Tag, UserWatchHistory
@@ -54,14 +55,14 @@ class Home(ListView):
         return context
 
 
-class VideoCreateView(CreateView):
+class VideoCreateView(LoginRequiredMixin, CreateView):
     """Presenting a form VideoCreateForm for creating a video"""
     model = Video
     form_class = VideoCreateForm
     template_name = "content/create_video.html"
 
     def get_success_url(self):
-        return reverse_lazy("account:profile", args=[self.request.user.pk])
+        return reverse("account:profile", args=[self.request.user.pk])
 
     def form_valid(self, form):
         """Transfers the feed automatically to the form."""
@@ -73,9 +74,9 @@ class VideoCreateView(CreateView):
         context = super().get_context_data(**kwargs)
 
         context["breadcrumbs"] = [
-            {"name": "Home", "url": reverse_lazy("content:home")},
-            {"name": "User profile", "url": reverse_lazy("account:profile", args=[self.request.user.pk])},
-            {"name": "Channel profile", "url": reverse_lazy("channel:profile_channel", args=[self.request.user.channel.pk])},
+            {"name": "Home", "url": reverse("content:home")},
+            {"name": "User profile", "url": reverse("account:profile", args=[self.request.user.pk])},
+            {"name": "Channel profile", "url": reverse("channel:profile_channel", args=[self.request.user.channel.pk])},
             {"name": "Create video", "url": ""}
             ]
         return context 
@@ -130,4 +131,5 @@ class VideoDetailView(DetailView):
                     comment.video = video
                     comment.save()
 
-        return redirect("content:view_video", pk=video.pk)
+            return redirect("content:view_video", pk=video.pk)
+        return redirect(f"{reverse('account:login')}?next={reverse('content:view_video', args=[video.pk])}")
