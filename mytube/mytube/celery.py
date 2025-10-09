@@ -16,7 +16,10 @@ def create_recommendation(user, serializers):
     """Makes a request to the recommendations microservice, sorts and updates the Recommendations model video."""
     from content.models import Recommendations
 
-    response = requests.post(settings.RECOMMENDATION_SERVICE_URL, json=serializers.data)
+    headers = {"Authorization": f"Token {settings.RECOMMENDATION_SERVICE_ADMIN_TOKEN}"}
+    response = requests.post(settings.RECOMMENDATION_SERVICE_URL, headers=headers, json=serializers.data)
+    response.raise_for_status()
+
     sorted_data = sorted(response.json(), key=lambda f: f["is_liked_by_user"], reverse=True)
     Recommendations.objects.get(user=user).video.set([data["video_id"] for data in sorted_data[:50]])
     return f"Recommendation for {user.username} is create."

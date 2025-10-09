@@ -54,3 +54,8 @@
 ## Superuser
 - **name:** Dima
 - **password:** 11
+
+## Superuser recommendation_servise
+- **name:** admin
+- **password:** 11
+- **service token:** 599f9384bacaac7b4664b6cfbe4189a203bb651b
