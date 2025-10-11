@@ -1,5 +1,6 @@
 import os
 from django.conf import settings
+from django.contrib.auth import get_user_model
 
 from celery import Celery
 import requests
@@ -12,12 +13,14 @@ app.config_from_object("django.conf.settings", namespace="CELERY")
 
 
 @app.task
-def create_recommendation(user, serializers):
+def create_recommendation(user_id, serializers):
     """Makes a request to the recommendations microservice, sorts and updates the Recommendations model video."""
     from content.models import Recommendations
 
+    user = get_user_model().objects.get(id=user_id)
+
     headers = {"Authorization": f"Token {settings.RECOMMENDATION_SERVICE_ADMIN_TOKEN}"}
-    response = requests.post(settings.RECOMMENDATION_SERVICE_URL, headers=headers, json=serializers.data)
+    response = requests.post(settings.RECOMMENDATION_SERVICE_URL, headers=headers, json=serializers)
     response.raise_for_status()
 
     sorted_data = sorted(response.json(), key=lambda f: f["is_liked_by_user"], reverse=True)

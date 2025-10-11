@@ -37,9 +37,9 @@ class Home(ListView):
         if (self.request.GET.get("search") or self.request.GET.get("tag")) or not user.is_authenticated:
             return self.get_videos(Video.objects.all())[:50]
 
-        serializer = VideoSerializer(self.get_videos(Video.objects.all()), many=True, context={"user": user})
+        serializer = VideoSerializer(self.get_videos(Video.objects.order_by("?")), many=True, context={"user": user})
         recommendations = Recommendations.objects.get(user=user).video.all()
-        create_recommendation(user, serializer)
+        create_recommendation.delay(user.id, serializer.data)
         return recommendations
         
     def get_context_data(self, **kwargs):
@@ -92,9 +92,9 @@ class VideoDetailView(DetailView):
         user = self.request.user
 
         if user.is_authenticated:
-            serializer = VideoSerializer(Video.objects.all(), many=True, context={"user": user})
-            rec_video = Recommendations.objects.get(user=user).video.order_by("?")[:10]
-            create_recommendation(user, serializer)
+            serializer = VideoSerializer(Video.objects.order_by("?"), many=True, context={"user": user})
+            rec_video = Recommendations.objects.get(user=user).video.all()[:10]
+            create_recommendation.delay(user.id, serializer.data)
             video_liked = UserWatchHistory.objects.get(user=user, video=self.get_object()).liked
         else:
             rec_video = Video.objects.order_by("?")[:10]
