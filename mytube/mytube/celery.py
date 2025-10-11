@@ -29,22 +29,8 @@ def create_recommendation(user_id, serializers):
 
 
 @app.task
-def send_info_user_tg(request, response):
+def send_info_user_tg(data:dict):
     """Sends information about requests to the TG bot."""
-    ip = request.META.get('HTTP_X_FORWARDED_FOR')
-    if ip:
-        ip = ip.split(',')[0]
-    else:
-        ip = request.META.get('REMOTE_ADDR')
-    data = {
-        "ip": ip,
-        "device": request.headers.get("User-Agent"),
-        "path": request.build_absolute_uri(),
-        "method": request.method,
-        "language": request.headers.get("Accept-Language"),
-        "regerer": request.headers.get("Regerer"),
-        "status": response.status_code,
-    }
     text = "SITE:"
     for key, value in data.items():
         if value:
