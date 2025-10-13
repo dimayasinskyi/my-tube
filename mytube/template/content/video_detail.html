@@ -86,8 +86,8 @@
     <!-- Sidebar recommended videos -->
     <div class="w-80 flex-shrink-0 space-y-4">
         {% for rec_video in rec_videos %}
-        <a href="{% url 'content:view_video' video.pk %}" class="flex gap-3 hover:bg-gray-100 p-2 rounded">
-            <img src="{{ video.thumbnail_url }}" alt="{{ video.title }}" class="w-32 h-20 object-cover rounded">
+        <a href="{% url 'content:view_video' rec_video.pk %}" class="flex gap-3 hover:bg-gray-100 p-2 rounded">
+            <img src="{{ rec_video.thumbnail_url }}" alt="{{ rec_video.title }}" class="w-32 h-20 object-cover rounded">
             <div class="flex-1">
                 <h3 class="text-sm font-semibold">{{ rec_video.title|truncatechars:50 }}</h3>
                 <p class="text-xs text-gray-500">{{ rec_video.channel.name }}</p>

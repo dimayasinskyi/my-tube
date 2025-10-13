@@ -2,6 +2,7 @@ from django.shortcuts import redirect
 from django.views.generic import CreateView, ListView, DetailView
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.transaction import atomic, on_commit
 
 from mytube.celery import create_recommendation
 from .models import Recommendations, Video, Tag, UserWatchHistory

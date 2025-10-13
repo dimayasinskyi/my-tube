@@ -1,4 +1,4 @@
-import os
+import os, random
 from django.conf import settings
 from django.contrib.auth import get_user_model
 
@@ -23,7 +23,7 @@ def create_recommendation(user_id, serializers):
     response = requests.post(settings.RECOMMENDATION_SERVICE_URL, headers=headers, json=serializers)
     response.raise_for_status()
 
-    sorted_data = sorted(response.json(), key=lambda f: f["is_liked_by_user"], reverse=True)
+    sorted_data = sorted(response.json(), key=lambda f: (not f["is_liked_by_user"], random.random()))
     Recommendations.objects.get(user=user).video.set([data["video_id"] for data in sorted_data[:50]])
     return f"Recommendation for {user.username} is create."
 
