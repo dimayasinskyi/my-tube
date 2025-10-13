@@ -1,7 +1,5 @@
 #!/bin/bash
 
-python manage.py migrate
-
 echo "Creating superuser if not exists..."
 python manage.py shell -c "
 from django.contrib.auth import get_user_model
