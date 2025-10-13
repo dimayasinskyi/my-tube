@@ -3,4 +3,3 @@ venv
 db.sqlite3
 __pycache__/
 *.pyc
-nginx-1.28.0

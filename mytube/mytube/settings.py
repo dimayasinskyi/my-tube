@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 import os
 from pathlib import Path
-import dj_database_url
+# import dj_database_url
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -62,8 +62,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 
     # 'core.middleware.SendInfoOfUser',
 ]
