@@ -1,4 +1,4 @@
-import subprocess, sys, os
+import subprocess, sys
 from django.core.management.base import BaseCommand
 
 from django.conf import settings

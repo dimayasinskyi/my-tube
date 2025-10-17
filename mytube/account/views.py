@@ -20,6 +20,7 @@ class AthenticationView(View):
             "register_form": RegisterForm(prefix="reg"),
             "login_form": LoginForm(prefix="login"),
         }
+        print(self.request)
         return render(request, self.template_name, context)
     
     def post(self, request):

@@ -1,0 +1,59 @@
+services:
+  # db:
+  #   image: postgres:stable
+
+
+  mytube:
+    build: ./mytube
+    container_name: mytube
+    command: gunicorn mytube.wsgi:application --bind 0.0.0.0:8000
+    expose: 
+      - "8000"
+    volumes:
+      - ./mytube/db.sqlite3:/app/db.sqlite3
+      - ./mytube/static:/app/static
+    env_file:
+      - ./mytube/.env
+    environment:
+      - DEBUG=False
+    
+  recommendation_service:
+    build: ./recommendation_service
+    container_name: recommendation_service
+    command: gunicorn recommendation_service.wsgi:application --bind 0.0.0.0:7000
+    expose: 
+      - "7000"
+    volumes:
+      - ./recommendation_service/db.sqlite3:/app/db.sqlite3
+    env_file:
+      - ./recommendation_service/.env
+    environment:
+      - DEBUG=False
+
+  celery_worker:
+    build: ./mytube
+    container_name: celery_worker
+    command: celery -A mytube worker --loglevel=info
+    env_file:
+      - ./mytube/.env
+    environment:
+      - DEBUG=False
+      - RECOMMENDATION_SERVICE_URL=http://recommendation_service:7000
+    volumes:
+      - ./mytube/db.sqlite3:/app/db.sqlite3
+      # - ./mytube:/app
+    depends_on:
+      # - mytube
+      - recommendation_service
+
+  nginx:
+    image: nginx:stable
+    restart: always
+    container_name: nginx
+    ports: 
+      - "8000:80"
+    volumes:
+      - ./config/deploy/nginx.conf:/etc/nginx/nginx.conf
+      - ./mytube/static:/app/static 
+    depends_on:
+      - mytube
