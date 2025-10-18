@@ -7,5 +7,5 @@ from django.conf import settings
 def create_recommendation_for_user(sender, instance, created, **kwargs):
     """When creating a user, it creates a recommendation model for them."""
     if created:
-        from content.models import Recommendations
-        Recommendations.objects.create(user=instance)
+        from content.models import Recommendations, Video
+        Recommendations.objects.create(user=instance).video.set(Video.objects.order_by("?")[:50])

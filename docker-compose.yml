@@ -1,25 +1,38 @@
 services:
-  # db:
-  #   image: postgres:stable
-
+  postgres:
+    image: postgres:18
+    container_name: postgres
+    restart: always
+    expose:
+      - "5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - ./config/deploy/postgres.env
+    environment:
+      - POSTGRES_DB=mytube_db
+      - POSTGRES_USER=mytube_user
 
   mytube:
     build: ./mytube
     container_name: mytube
+    restart: always
     command: gunicorn mytube.wsgi:application --bind 0.0.0.0:8000
     expose: 
       - "8000"
     volumes:
-      - ./mytube/db.sqlite3:/app/db.sqlite3
       - ./mytube/static:/app/static
     env_file:
       - ./mytube/.env
     environment:
       - DEBUG=False
+    depends_on:
+      - postgres
     
   recommendation_service:
     build: ./recommendation_service
     container_name: recommendation_service
+    restart: always
     command: gunicorn recommendation_service.wsgi:application --bind 0.0.0.0:7000
     expose: 
       - "7000"
@@ -33,18 +46,16 @@ services:
   celery_worker:
     build: ./mytube
     container_name: celery_worker
+    restart: always
     command: celery -A mytube worker --loglevel=info
     env_file:
       - ./mytube/.env
     environment:
       - DEBUG=False
       - RECOMMENDATION_SERVICE_URL=http://recommendation_service:7000
-    volumes:
-      - ./mytube/db.sqlite3:/app/db.sqlite3
-      # - ./mytube:/app
     depends_on:
-      # - mytube
       - recommendation_service
+      - postgres
 
   nginx:
     image: nginx:stable
@@ -57,3 +68,6 @@ services:
       - ./mytube/static:/app/static 
     depends_on:
       - mytube
+
+volumes:
+  postgres_data:

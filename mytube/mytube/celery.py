@@ -13,7 +13,7 @@ app.config_from_object("django.conf.settings", namespace="CELERY")
 
 
 @app.task
-def create_recommendation(user_id, serializers):
+def create_recommendation(user_id:int, serializers:list):
     """Makes a request to the recommendations microservice, sorts and updates the Recommendations model video."""
     if not serializers:
         print("Serializers is empty.")
