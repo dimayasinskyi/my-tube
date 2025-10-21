@@ -1,4 +1,5 @@
 services:
+  # DATABASE #
   postgres:
     image: postgres:18
     container_name: postgres
@@ -12,7 +13,23 @@ services:
     environment:
       - POSTGRES_DB=mytube_db
       - POSTGRES_USER=mytube_user
+    
+  mongo:
+    image: mongo:7.0
+    container_name: mongo
+    restart: always
+    expose:
+      - "27017"
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/var/lib/mongo/data
+    env_file:
+      - ./config/deploy/mongo.env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=recommendation_service_db
 
+  # SERVICE #
   mytube:
     build: ./mytube
     container_name: mytube
@@ -36,13 +53,14 @@ services:
     command: gunicorn recommendation_service.wsgi:application --bind 0.0.0.0:7000
     expose: 
       - "7000"
-    volumes:
-      - ./recommendation_service/db.sqlite3:/app/db.sqlite3
     env_file:
       - ./recommendation_service/.env
     environment:
       - DEBUG=False
+    depends_on:
+      - mongo
 
+  # BACKGROUND WORKER # 
   celery_worker:
     build: ./mytube
     container_name: celery_worker
@@ -57,6 +75,7 @@ services:
       - recommendation_service
       - postgres
 
+  # PROXY SERVER #
   nginx:
     image: nginx:stable
     restart: always
@@ -71,3 +90,4 @@ services:
 
 volumes:
   postgres_data:
+  mongo_data:

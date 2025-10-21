@@ -4,6 +4,7 @@ nginx-1.28.0/
 db.sqlite3
 .env
 postgres.env
+mongo.env
 Pipfile
 Pipfile.lock
 README.md

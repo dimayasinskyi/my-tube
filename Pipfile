@@ -18,6 +18,9 @@ django-cloudinary-storage = "==0.3.0"
 django-cleanup = "==9.0.0"
 redis = "==6.4.0"
 whitenoise = "==6.9.0"
+mongoengine = "*"
+werkzeug = "*"
+django-mongoengine = "*"
 
 [dev-packages]
 
