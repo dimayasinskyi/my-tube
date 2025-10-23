@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main>
+    <h1>User: {{ user.username }}</h1>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Active:</strong> {{ user.is_active }}</p>
+    <p><a href="{% url 'admin:admin-list' %}">← Back to list</a></p>
+    <p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="delete">Delete</button>
+    </form>
+    </p>
+</main>
+{% endblock %}

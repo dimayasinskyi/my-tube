@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<main>
+    <!-- User list -->
+    <h1>Users</h1>
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Actions</th>
+            <th><a href="{% url 'admin:admin-register' %}">Register new user</a></th>
+        </tr>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td><a href="{% url 'admin:admin-detail' user.id %}">Detail</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</main>
+{% endblock %}
