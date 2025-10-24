@@ -4,7 +4,7 @@ from django.contrib import messages
 
 from ..mixins import MongoMixin
 from .models import User
-from .forms import RegisterForm
+from .forms import RegisterForm, LoginForm
 
 
 class ListAdmin(MongoMixin, ListView):
@@ -35,8 +35,28 @@ def register_admin(request):
             user = User(**form.cleaned_data)
             user.set_password(password)
             user.save()
+            request.session["user_id"] = str(user.id)
         else:
             messages.error(request, form.errors)
     else:
         form = RegisterForm()
     return render(request, "admin/register_form.html", {"form": form})
+
+def login_in(request):
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            user = User.objects(**form.cleaned_data).first()
+            request.session["user_id"] = str(user.id)
+            return redirect("admin:admin-list")
+    else:
+        form = LoginForm()
+        
+    return render(request, "admin/login_form.html", {"form": form})
+
+
+def logout(request):
+    if request.user.is_authenticated:
+        request.session.flush()
+        return redirect("admin:admin-list")
+    

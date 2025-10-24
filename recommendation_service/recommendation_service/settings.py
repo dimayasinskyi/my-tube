@@ -68,6 +68,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'core.middleware.SessionVerificationUser',
 ]
 
 ROOT_URLCONF = 'recommendation_service.urls'
@@ -99,7 +101,11 @@ DATABASES = {
     }
 }
 
-connect(host=os.getenv("DATABASE_URL"))
+SESSION_ENGINE = "core.mongo_sessions_backend"
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+connect(host=DATABASE_URL)
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
