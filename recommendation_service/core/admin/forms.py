@@ -27,7 +27,14 @@ class RegisterForm(forms.Form):
     
 
 class LoginForm(forms.Form):
-
+    """
+    The user login form checks:
+    - whether all fields have been filled in 
+    - whether the user exists 
+    - whether the password matches
+    
+    Returns data without a password.
+    """
     username = forms.CharField(
         max_length=150,
         widget=forms.TextInput(attrs={"placeholder": "Username"})
@@ -45,9 +52,12 @@ class LoginForm(forms.Form):
         username = cleaned_data.get("username")
         password = cleaned_data.pop("password")
 
-        if not User.objects(username=username):
-            raise forms.ValidationError("A user with that name already exists.")
-        elif not User.objects(username=username).first().check_password(password):
+        user = User.objects(username=username).first()
+        if not username or not password:
+            raise forms.ValidationError("Fill in all fields.")
+        elif not user:
+            raise forms.ValidationError("Check username not found.")
+        elif not user.check_password(password):
             raise forms.ValidationError("The password is incorrect.")
         
         return cleaned_data

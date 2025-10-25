@@ -3,8 +3,9 @@
 
 {% block content %}
 <main>
-    <!-- Form -->
-    <form method="post" style="width: 100%;">
+    <!-- Register form -->
+    <form method="post" class="register-form">
+        <h2>Register</h2>
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Register</button>

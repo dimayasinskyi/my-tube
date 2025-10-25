@@ -12,4 +12,4 @@ class MongoMixin:
     def get_object(self):
         id = self.kwargs.get("id")
         if id:
-            return self.model.objects(id=ObjectId(id))
+            return self.model.objects.get(id=ObjectId(id))
