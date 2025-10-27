@@ -84,7 +84,8 @@ services:
       - "8000:80"
     volumes:
       - ./config/deploy/nginx.conf:/etc/nginx/nginx.conf
-      - ./mytube/static:/app/static 
+      - ./config/ssl:/etc/ssl
+      - ./mytube/static:/app/static
     depends_on:
       - mytube
 
