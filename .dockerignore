@@ -8,3 +8,6 @@ mongo.env
 Pipfile
 Pipfile.lock
 README.md
+redis/
+nginx/
+staticfiles/

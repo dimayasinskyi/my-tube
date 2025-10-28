@@ -1,6 +1,7 @@
 import os, random
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.db import transaction
 
 from celery import Celery
 import requests
@@ -23,7 +24,7 @@ def create_recommendation(user_id:int, serializers:list):
 
     user = get_user_model().objects.get(id=user_id)
     headers = {
-        "Authorization": f"Token {settings.RECOMMENDATION_SERVICE_ADMIN_TOKEN}",
+        "Authorization": f"{settings.RECOMMENDATION_SERVICE_ADMIN_TOKEN}",
         "Host": "localhost",
     }
     response = requests.post(settings.RECOMMENDATION_SERVICE_URL, headers=headers, json=serializers)
@@ -34,7 +35,8 @@ def create_recommendation(user_id:int, serializers:list):
         return "Error"
         
     sorted_data = sorted(response.json(), key=lambda f: (not f["is_liked_by_user"], random.random()))
-    Recommendations.objects.get(user=user).video.set([data["video_id"] for data in sorted_data[:50]])
+    with transaction.atomic():
+        Recommendations.objects.get(user=user).video.set([data["video_id"] for data in sorted_data[:50]])
     return f"Recommendation for {user.username} is create."
 
 

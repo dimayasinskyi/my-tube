@@ -8,3 +8,6 @@ __pycache__/
 ssl/
 logs/
 temp/
+redis/
+nginx/
+staticfiles/
