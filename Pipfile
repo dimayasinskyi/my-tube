@@ -22,6 +22,7 @@ mongoengine = "*"
 werkzeug = "*"
 django-mongoengine = "*"
 psycopg2-binary = "*"
+django-redis = "*"
 
 [dev-packages]
 

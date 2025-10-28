@@ -11,7 +11,6 @@ class SessionVerificationUser:
         user = User.objects.get(id=user_id) if user_id else None
         if user:
             request.user = user
-            request.user.is_authenticated = True
-            
+
         response = self.get_response(request)
         return response

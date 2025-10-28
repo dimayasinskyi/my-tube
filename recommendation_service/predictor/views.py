@@ -9,6 +9,7 @@ import pandas as pd
 from .constants import COUNTRY_MAPPING, FEATURE_COLUMNS, ALL_TAGS
 
 
+
 @api_view(['POST'])
 @csrf_exempt
 def create_recommendation(request):

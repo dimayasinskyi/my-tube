@@ -40,3 +40,7 @@ class User(Document):
                 self.token = token
                 break
         self.save()
+
+    @property
+    def is_authenticated(self):
+        return True
