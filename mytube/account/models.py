@@ -4,6 +4,8 @@ from django.templatetags.static import static
 
 from cloudinary_storage.storage import MediaCloudinaryStorage
 
+from core.models import UUIDModel
+
 
 class CountryChoises(models.TextChoices):
     """Model for selecting countries in the CustomUser model."""
@@ -23,7 +25,7 @@ class CountryChoises(models.TextChoices):
     AU = "AU", "Australia"
 
 
-class CustomUser(AbstractUser):
+class CustomUser(UUIDModel, AbstractUser):
     """
     User model inherited from AbstractUser.
     
@@ -31,7 +33,7 @@ class CustomUser(AbstractUser):
     - avatar
     - country
     - age
-    - fields from AbstractUser
+    - fields from UUIDModel and AbstractUser
 
     Methods:
     - str: returns full username

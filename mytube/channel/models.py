@@ -4,11 +4,13 @@ from django.templatetags.static import static
 
 from cloudinary_storage.storage import MediaCloudinaryStorage
 
+from core.models import UUIDModel
+
 
 User = get_user_model()
 
 
-class Channel(models.Model):
+class Channel(UUIDModel):
     """
     To highlight users who create videos.
 

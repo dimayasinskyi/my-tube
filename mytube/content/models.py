@@ -4,6 +4,8 @@ from django.contrib.auth import get_user_model
 from cloudinary_storage.storage import VideoMediaCloudinaryStorage
 from cloudinary.utils import cloudinary_url
 
+from core.models import UUIDModel
+
 
 User = get_user_model()
 
@@ -21,7 +23,7 @@ class UserWatchHistoryManager(models.Manager):
         return history
 
 
-class UserWatchHistory(models.Model):
+class UserWatchHistory(UUIDModel):
     """
     Model for recommendations and viewing the viewed.
 
@@ -67,7 +69,7 @@ class AgeLimitChoices(models.TextChoices):
     NC17 = "NC-17", "Adults Only"
 
 
-class Video(models.Model):
+class Video(UUIDModel):
     """
     Model for video.
 
@@ -178,7 +180,7 @@ class Tag(models.Model):
         return self.title
 
 
-class Recommendations(models.Model):
+class Recommendations(UUIDModel):
     """
     Specialized repairs for users.
 
@@ -197,7 +199,7 @@ class Recommendations(models.Model):
         return f"{self.user.username} | {self.update_at.strftime("%d.%m.%Y %H:%M")}"
     
 
-class VideoComment(models.Model):
+class VideoComment(UUIDModel):
     """
     Video comment model.
 

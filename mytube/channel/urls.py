@@ -7,6 +7,6 @@ app_name = "channel"
 
 urlpatterns = [
     path("create/", create_channel, name="create_channel"),
-    path("profile/<int:pk>/", ChannelUpdateView.as_view(), name="profile_channel"),
-    path("view/<int:pk>/", ChannelDetailView.as_view(), name="view_channel"),
+    path("profile/<str:pk>/", ChannelUpdateView.as_view(), name="profile_channel"),
+    path("view/<str:pk>/", ChannelDetailView.as_view(), name="view_channel"),
 ]
