@@ -2,7 +2,6 @@ from django.shortcuts import redirect
 from django.views.generic import CreateView, ListView, DetailView
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.transaction import atomic, on_commit
 
 from mytube.celery import create_recommendation
 from .models import Recommendations, Video, Tag, UserWatchHistory
@@ -98,7 +97,7 @@ class VideoDetailView(DetailView):
 
         if user.is_authenticated:
             serializer = VideoSerializer(Video.objects.all(), many=True, context={"user": user})
-            rec_video = Recommendations.objects.get(user=user).video.all()[:10]
+            rec_video = Recommendations.objects.get(user=user).video.select_related("channel").all()[:10]
             create_recommendation.apply_async(
                 args=[user.id, serializer.data],
                 task_id=f"recommendation_user_{user.id}",
@@ -106,7 +105,7 @@ class VideoDetailView(DetailView):
                 )
             video_liked = UserWatchHistory.objects.get(user=user, video=self.get_object()).liked
         else:
-            rec_video = Video.objects.order_by("?")[:10]
+            rec_video = Video.objects.select_related("channel").order_by("?")[:10]
             video_liked = None
         
         context["rec_videos"] = rec_video

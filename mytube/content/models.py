@@ -37,7 +37,7 @@ class UserWatchHistory(models.Model):
 
     Method str: returns video title or 'Video deleted'.
     """
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE, db_index=True)
     video = models.ForeignKey(to="Video", null=True, on_delete=models.SET_NULL, related_name="history")
     watched_at = models.DateTimeField(auto_now_add=True)
     duration_watched = models.PositiveIntegerField(default=0)
@@ -89,12 +89,12 @@ class Video(models.Model):
     """
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
-    tags = models.ManyToManyField("Tag", blank=True)
+    tags = models.ManyToManyField("Tag", blank=True, db_index=True)
     views = models.PositiveIntegerField(default=0)
     likes = models.IntegerField(default=0)
     age_limit = models.CharField(max_length=10, choices=AgeLimitChoices.choices, default=AgeLimitChoices.G)
     file = models.FileField(upload_to="videos/", storage=VideoMediaCloudinaryStorage())
-    channel = models.ForeignKey(to="channel.Channel", on_delete=models.CASCADE, related_name="videos")
+    channel = models.ForeignKey(to="channel.Channel", on_delete=models.CASCADE, related_name="videos", db_index=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -189,7 +189,7 @@ class Recommendations(models.Model):
 
     Method str: returns update_at
     """
-    user = models.OneToOneField(to=User, on_delete=models.CASCADE)
+    user = models.OneToOneField(to=User, on_delete=models.CASCADE, db_index=True)
     video = models.ManyToManyField(to=Video, blank=True)
     update_at = models.DateTimeField(auto_now=True)
 
@@ -209,7 +209,7 @@ class VideoComment(models.Model):
 
     Method str: returns f"{self.author.username} | {self.video.pk}"
     """
-    author = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    author = models.ForeignKey(to=User, on_delete=models.CASCADE, db_index=True)
     video = models.ForeignKey(to=Video, on_delete=models.CASCADE, related_name="comments")
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)

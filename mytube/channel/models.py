@@ -27,7 +27,7 @@ class Channel(models.Model):
     """
     name = models.CharField(max_length=100)
     avatar = models.ImageField(null=True, blank=True, upload_to="channel/avatar/", storage=MediaCloudinaryStorage())
-    banner = models.ImageField(null=True, blank=True, upload_to="channel/banner/", storage=MediaCloudinaryStorage())
+    banner = models.ImageField(null=True, blank=True, upload_to="channel/banner/", storage=MediaCloudinaryStorage(), db_index=True)
     author = models.OneToOneField(to=User, on_delete=models.CASCADE)
     poenitization = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
