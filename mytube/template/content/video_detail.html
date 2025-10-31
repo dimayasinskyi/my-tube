@@ -26,13 +26,15 @@
                 <span>{{ video.likes }}</span>
 
                 <!-- Like кнопка -->
-                <button type="submit" name="action" value="like" class="{% if not request.user.is_authenticated %}disabled opacity-50{% elif liked %}text-blue-800{% endif %}
-                 flex items-center gap-1 hover:text-blue-600">
+                <button type="submit" name="action" value="like" class="{% if not request.user.is_authenticated %}
+                disabled opacity-50{% elif liked %}text-blue-800{% else %}hover:text-blue-600{% endif %}
+                 flex items-center gap-1">
                     👍 Like
                 </button>
                 <!-- Dislike кнопка -->
-                <button type="submit" name="action" value="dislike" class="{% if not request.user.is_authenticated %}disabled opacity-50{% elif liked == False %}text-blue-800{% endif %}
-                 flex items-center gap-1 hover:text-blue-600">
+                <button type="submit" name="action" value="dislike" class="{% if not request.user.is_authenticated %}
+                disabled opacity-50{% elif liked == False %}text-blue-800{% else %}hover:text-blue-600{% endif %}
+                 flex items-center gap-1">
                     👎 Dislike
                 </button>
             </form>
